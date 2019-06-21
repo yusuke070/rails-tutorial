@@ -13,12 +13,12 @@ before_action :admin_user,     only: :destroy
   def new
     @user = User.new
   end
-  def create
+   def create
     @user = User.new(user_params)
     if @user.save
-      log_in @user
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
+      @user.send_activation_email
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
     else
       render 'new'
     end
